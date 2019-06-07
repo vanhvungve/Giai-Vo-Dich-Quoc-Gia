@@ -1,0 +1,107 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Configuration;
+namespace nmcnpm
+{
+    public partial class TraCuu : Form
+    {
+        public TraCuu()
+        {
+            InitializeComponent();
+        }
+       
+
+        private void TraCuu_Load(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void saveButt_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(codePlayer.Text))
+            {
+                if (string.IsNullOrEmpty(textBox2.Text))
+                {
+                    if (string.IsNullOrEmpty(comboBox1.Text))
+                    {
+                        if (string.IsNullOrEmpty(comboBox2.Text))
+                        {
+                            if (numericUpDown1.Value < numericUpDown2.Value || numericUpDown1.Value == numericUpDown2.Value)
+                            {
+
+                            }
+                            else
+                            {
+                                SqlConnection kn = new SqlConnection(@"Data Source=DESKTOP-AFTIQ66\SQLEXPRESS;Initial Catalog=QLBD;Integrated Security=True");
+                                kn.Open();
+                                string doTuoi = "select * from cauthu where TuoiCauThu >= '" + numericUpDown1.Value + "' AND TuoiCauThu <= '" + numericUpDown2.Value + "'";
+                                SqlCommand commandCauThu = new SqlCommand(doTuoi, kn);
+                                SqlDataAdapter adaptermaCauThu = new SqlDataAdapter(commandCauThu);
+                                DataTable table = new DataTable();
+                                adaptermaCauThu.Fill(table);
+                                dataGridView1.DataSource = table;
+                                kn.Close();
+                            }
+                        }
+                        else
+                        {
+                            SqlConnection kn = new SqlConnection(@"Data Source=DESKTOP-AFTIQ66\SQLEXPRESS;Initial Catalog=QLBD;Integrated Security=True");
+                            kn.Open();
+                            string loaiCauThu = "select * from cauthu ct, loaicauthu lct where ct.MaLoaiCT = lct.MaLoaiCT AND lct.LoaiCauThu like '%" + comboBox2.Text + "%'";
+                            SqlCommand commandCauThu = new SqlCommand(loaiCauThu, kn);
+                            SqlDataAdapter adaptermaCauThu = new SqlDataAdapter(commandCauThu);
+                            DataTable table = new DataTable();
+                            adaptermaCauThu.Fill(table);
+                            dataGridView1.DataSource = table;
+                            kn.Close();
+                        }
+                    }
+                    else
+                    {
+                        SqlConnection kn = new SqlConnection(@"Data Source=DESKTOP-AFTIQ66\SQLEXPRESS;Initial Catalog=QLBD;Integrated Security=True");
+                        kn.Open();
+                        string doiBong = "select * from cauthu ct, doibong db where ct.MaDoiBong = db.MaDoiBong AND db.TenDoiBong like '%" +comboBox1.Text+ "%'";
+                        SqlCommand commandCauThu = new SqlCommand(doiBong, kn);
+                        SqlDataAdapter adaptermaCauThu = new SqlDataAdapter(commandCauThu);
+                        DataTable table = new DataTable();
+                        adaptermaCauThu.Fill(table);
+                        dataGridView1.DataSource = table;
+                        kn.Close();
+                    }
+                }
+                else
+                {
+                    SqlConnection kn = new SqlConnection(@"Data Source=DESKTOP-AFTIQ66\SQLEXPRESS;Initial Catalog=QLBD;Integrated Security=True");
+                    kn.Open();
+                    string tenCauThu = "select * from cauthu where TenCauThu like '%" + textBox2.Text + "%'";
+                    SqlCommand commandCauThu = new SqlCommand(tenCauThu, kn);
+                    SqlDataAdapter adaptermaCauThu = new SqlDataAdapter(commandCauThu);
+                    DataTable table = new DataTable();
+                    adaptermaCauThu.Fill(table);
+                    dataGridView1.DataSource = table;
+                    kn.Close();
+                }
+            }
+            else
+            {
+                SqlConnection kn = new SqlConnection(@"Data Source=DESKTOP-AFTIQ66\SQLEXPRESS;Initial Catalog=QLBD;Integrated Security=True");
+                kn.Open();
+                string maCauThu = "select * from cauthu where MaCauThu like '%" + codePlayer.Text + "%'";
+                SqlCommand commandCauThu = new SqlCommand(maCauThu, kn);
+                SqlDataAdapter adaptermaCauThu = new SqlDataAdapter(commandCauThu);
+                DataTable table = new DataTable();
+                adaptermaCauThu.Fill(table);
+                dataGridView1.DataSource = table;
+                kn.Close();
+            }
+        }
+    }
+}
