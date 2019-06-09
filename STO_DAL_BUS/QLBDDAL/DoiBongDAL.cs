@@ -21,6 +21,7 @@ namespace QLBDDAL
         {
             connectionstring = ConfigurationManager.AppSettings["ConnectionString"];
         }
+
         public bool them(DoiBongDTO db)
         {
             string query = string.Empty;
@@ -47,6 +48,7 @@ namespace QLBDDAL
                     }
                     catch (Exception ex)
                     {
+ 
                         con.Close();
                         return false;
                     }
